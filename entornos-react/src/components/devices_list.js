@@ -3,7 +3,9 @@ import { Input, Modal, Table, Button } from 'antd'
 import { connect } from 'react-redux'
 import actions from '../actions'
 
+import '../App.css';
 const {TextArea} = Input
+
 
 class DeviceList extends Component{
   

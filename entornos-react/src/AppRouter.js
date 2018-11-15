@@ -1,9 +1,8 @@
 
-import './App.css';
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { BrowserRouter as Router, Route,Link, Switch } from 'react-router-dom';
-import App from './components/App';
+import { BrowserRouter as Router, Route,Link, Switch } from 'react-router-dom'
+import App from './components/App'
 
 //----------------------------
 class AppRouter extends Component {
@@ -13,7 +12,6 @@ class AppRouter extends Component {
       <Router>
         <div>
           <Route path="/" component={App} />
-          <Route path="/:view" component={App} />
         </div>
       </Router>
     );
@@ -21,11 +19,10 @@ class AppRouter extends Component {
 }
 
 function mapStateToProps(state) {
-
   return { 
     user: state.user 
   };
 }
 
-export default connect(mapStateToProps)(AppRouter);
+export default connect(mapStateToProps)(AppRouter)
 

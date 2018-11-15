@@ -4,7 +4,7 @@ import axios from 'axios'
 const API_URL = 'http://192.168.1.10:8080/api'
 
 
-export default {addDevice, fetchDevices, addEnvironm, fetchEnvironms}
+export default { collapsed, addDevice, fetchDevices, addEnvironm, fetchEnvironms}
 
 function fetchDevices () {
 
@@ -69,3 +69,11 @@ function addEnvironm (name, description) {
 
 }
 
+function collapsed(collapsed) {
+  return {
+    type: 'COLLAPSED',
+    data: collapsed
+  }
+    
+  
+}

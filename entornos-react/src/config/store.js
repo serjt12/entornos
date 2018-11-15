@@ -12,6 +12,8 @@ const middleware = [ ReduxThunk, logger ];
 
 const initialState = {
 
+  collapsed: true,
+
   user: {},
 
   devices: [

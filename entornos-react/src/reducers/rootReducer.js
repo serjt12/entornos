@@ -8,6 +8,9 @@ function rootReducer(state, action) {
         
     case 'SET_ENTORNOS':
     return { ...state, entornos: action.data }
+
+    case 'COLLAPSED':
+    return { ...state, collapsed: action.data }
     
     default:
     return { ...state }

@@ -23,7 +23,6 @@ class App extends Component {
   // lifecycle
   componentWillMount() {
     console.log('will', this.props);
-
   }
 
   componentDidMount() {

@@ -1,10 +1,12 @@
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-import React from 'react';
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
+import React from 'react'
+import { Layout, Menu, Breadcrumb, Icon } from 'antd'
 
 import DeviceList from './devices_list'
-import EntornoList from './entornos_list.js';
+import EntornoList from './entornos_list.js'
 
+import '../App.css'
+const { Content, Header, Footer } = Layout
 
 function ViewRouter() {
   return (

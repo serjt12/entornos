@@ -1,12 +1,13 @@
-import React,{ Component } from 'react';
-import { BrowserRouter as Router, Route, Link, Switch, NavLink, withRouter, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import React,{ Component } from 'react'
+import { BrowserRouter as Router, Route, Link, Switch, NavLink, withRouter, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { Layout, Menu, Breadcrumb, Icon } from 'antd'
+import actions from '../actions'
 
-import '../App.css';
-import '../styles/sider.css';
-const { Header, Content, Footer, Sider } = Layout;
-const SubMenu = Menu.SubMenu;
+import '../App.css'
+import '../styles/sider.css'
+const { Header, Content, Footer, Sider } = Layout
+const SubMenu = Menu.SubMenu
 
 class SideMenu extends Component {
   constructor(props) {
@@ -14,19 +15,26 @@ class SideMenu extends Component {
     this.state = {
       collapsed: false,
     }
-    this.renderDeviceList = this.renderDeviceList.bind(this);
+    this.renderDeviceList = this.renderDeviceList.bind(this)
+  }
+
+  componentDidMount() {
+    //const { collapsed } = this.state
+    //    console.log('state  ', actions.collapsed, 'props', this.props.collapsed)
+    //    this.props.dispatch(actions.collapsed(this.state.collapsed))
   }
 
   /* control events */
   onCollapse = (collapsed) => {
-    //    console.log(collapsed);
-    this.setState({ collapsed });
+    console.log('ON COLLAPSE', collapsed)
+    this.props.dispatch(actions.collapsed(collapsed))
+    this.setState({ collapsed })
   }
 
   onTitleClick = (e) => {
-    console.log(`clicked: ${e.key}`, e);
-    this.props.history.push(e.key);
-    //    return <Redirect to={`${e.key}`} />
+    console.log(`clicked: ${e.key}`, e)
+    const path = e.key 
+    this.props.history.push(path)
   }
 
   /* render helpers */ 
@@ -46,21 +54,19 @@ class SideMenu extends Component {
   }
 
   renderSider = () => {
-    const { location } = this.props;
-    console.log('sider props', location);
+    const { location } = this.props
+    console.log('sider props', this.props)
     return(
       <Sider
         collapsible
-        collapsed={this.state.collapsed}
+        collapsed={this.props.collapsed}
         onCollapse={this.onCollapse}
       >
         <div className="logo" />
         <Menu theme="dark" defaultSelectedKeys={[location.pathname]} mode="inline">
           <SubMenu 
             key="/entornos"
-            title={ <Link to="/entornos"><span><Icon type="api" 
-                />
-                <span>Entornos</span></span></Link>} 
+            title={ <Link to="/entornos"><span><Icon type="api"/><span>Entornos</span></span></Link>} 
             onTitleClick={this.onTitleClick}
           >
             {this.renderEnvironsList()}
@@ -78,7 +84,7 @@ class SideMenu extends Component {
   }
 
   render() {
-    console.log("location    ", this.props);
+    console.log("REnder props    ", this.props)
     return(
       <Router>
         <Route path="*" component={this.renderSider} />
@@ -94,4 +100,4 @@ function mapStateToProps(state) {
 }
 
 
-export default withRouter(connect(mapStateToProps)(SideMenu));
+export default withRouter(connect(mapStateToProps)(SideMenu))
