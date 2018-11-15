@@ -5,14 +5,15 @@ import {applyMiddleware, createStore} from 'redux'
 import { BrowserRouter } from 'react-router-dom'
 import store from './config/store'
 import './index.css'
-import App from './App'
+import AppRouter from './AppRouter'
 import registerServiceWorker from './registerServiceWorker'
 
 ReactDOM.render(
   <BrowserRouter>
     <Provider store= {store}>
-      <App />
-    </Provider>
+      <AppRouter />
+    </Provider>         
   </BrowserRouter>, document.getElementById('root'))
+
 
 registerServiceWorker()

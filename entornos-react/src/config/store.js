@@ -1,12 +1,18 @@
 import { applyMiddleware, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import ReduxThunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from '../reducers/rootReducer';
 
+const composeEnhancers = composeWithDevTools({
+  // Specify name here, actionsBlacklist, actionsCreators and other options if needed
+});
 const logger = createLogger();
 const middleware = [ ReduxThunk, logger ];
 
 const initialState = {
+
+  user: {},
 
   devices: [
 
@@ -22,4 +28,7 @@ const initialState = {
   ]
 }
 
-export default createStore(rootReducer, initialState, applyMiddleware(...middleware));
+const store =  createStore(rootReducer, initialState, composeEnhancers(
+  applyMiddleware(...middleware),
+));
+export default store;

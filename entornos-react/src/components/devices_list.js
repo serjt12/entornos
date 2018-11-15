@@ -1,27 +1,26 @@
-import React, {Component} from 'react';
-import {Input, Modal, Table, Button } from 'antd';
-import {connect} from 'react-redux'
-import actions from './actions'
+import React, { Component } from 'react'
+import { Input, Modal, Table, Button } from 'antd'
+import { connect } from 'react-redux'
+import actions from '../actions'
 
 const {TextArea} = Input
 
-class EntornoList extends Component{
+class DeviceList extends Component{
+  
+    columns = [
 
-  columns = [
-
-    { title: 'name', dataIndex: 'name', key: 'name' },
-    { title: 'description', dataIndex: 'description', key: 'description' },
-    { title: 'Action', dataIndex: '', key: 'x', render: () => <a href="#">Delete</a> },
-
+      { title: 'Nombre', dataIndex: 'name', key: 'name' },
+      { title: 'Descripcion', dataIndex: 'description', key: 'description' },
+      { title: 'WiFi', dataIndex: 'wifi', key: 'wifi' },
+      { title: 'Action', dataIndex: '', key: 'x', render: () => <a href="#">Delete</a> },
     ]
-
-
+      
     state = {
       loading: false,
       visible: false,
     }
 
-    newEnvironm= {
+    newDevice= {
       name: null, 
       description: null 
     }
@@ -34,8 +33,8 @@ class EntornoList extends Component{
 
     handleOk = () => {
       this.setState({ loading: true });
-      const {name, description} = this.newEnvironm
-      this.props.dispatch(actions.addEnvironm(name, description))
+      const {name, description} = this.newDevice
+      this.props.dispatch(actions.addDevice(name, description))
       console.log(name, description)
       setTimeout(() => {
         this.setState({ loading: false, visible: false });
@@ -47,33 +46,33 @@ class EntornoList extends Component{
     }
 
     handleOnChange = (field) => (e, value) => {
-
-      this.newEnvironm[field] = e.target.value   
+      
+     this.newDevice[field] = e.target.value   
 
 
     }
 
-  componentWillMount (props) {
-    console.log(props)
-    this.props.dispatch(actions.fetchEnvironms())
+  componentWillMount() {
+    this.props.dispatch(actions.fetchDevices())
 
   }
+
     render () {
-
       const {visible, loading} = this.state
-
       return(
+
         <div>
+
           <div className="table-operations">
 
-            <Button onClick={this.showModal}>Agrega entorno</Button>
+          <Button onClick={this.showModal}>Agrega dispositivo</Button>
 
           </div>
 
           <Modal
 
             visible={visible}
-            title="Nuevo entorno"
+            title="Nuevo dispositivo"
             onOk={this.handleOk}
             onCancel={this.handleCancel}
 
@@ -89,10 +88,11 @@ class EntornoList extends Component{
               <TextArea  onChange= {this.handleOnChange('description')} size="large" placeholder="descripcion" autosize/>
             </div>
           </Modal>
-          <Table rowKey='_id'
+
+          <Table
             columns={this.columns}
             expandedRowRender={record => <p style={{ margin: 0 }}>{record.descripcion}</p>}
-            dataSource={this.props.entornos}
+            dataSource={this.props.devices}
           />
 
         </div>
@@ -103,8 +103,8 @@ class EntornoList extends Component{
 
 function mapStateToProps(state) {
 
-  return { entornos : state.entornos.map(e => ({ ...e, key: e._id})) }
+  return { devices : state.devices.map(e => ({ ...e, key: e._id})) }
 }
 
-export default connect(mapStateToProps)(EntornoList);
+export default connect(mapStateToProps)(DeviceList);
 

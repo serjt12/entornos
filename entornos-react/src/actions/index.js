@@ -11,14 +11,11 @@ function fetchDevices () {
   return function (dispatch) {
 
     const url = '/devices'
+
     axios.get(API_URL + url)
-
     .then(res => {
-
       dispatch({type: 'SET_DEVICES', data: res.data})
-
     }).catch(e => console.log(e))
-
   }
 
 }
