@@ -34,16 +34,18 @@ class SideMenu extends Component {
   onTitleClick = (e) => {
     console.log(`clicked: ${e.key}`, e)
     const path = e.key 
-    this.props.history.push(path)
+    //    this.props.history.replace(path)
   }
 
   /* render helpers */ 
   renderDeviceList() {
     //console.log('deviceList', this.props);
     const { devices } = this.props
-    return devices.map(device => (
-      <Menu.Item key={device._id}>{device.name}</Menu.Item>
-      ))
+    return devices.map(device => {
+      const nameToAddress = `/${device.name}`
+      const address = `/devices/${device.name}`
+      return <Menu.Item key={nameToAddress}><Link to={address}><span>{device.name}</span></Link></Menu.Item>
+    })
   }
 
   renderEnvironsList() {
@@ -65,17 +67,16 @@ class SideMenu extends Component {
         <div className="logo" />
         <Menu theme="dark" defaultSelectedKeys={[location.pathname]} mode="inline">
           <SubMenu 
-            key="/entornos"
+            key="/sub2"
             title={ <Link to="/entornos"><span><Icon type="api"/><span>Entornos</span></span></Link>} 
-            onTitleClick={this.onTitleClick}
           >
             {this.renderEnvironsList()}
           </SubMenu>
           <SubMenu
             key="/devices"
-            title={<Link to="/devices" ><span><Icon type="fork" /><span>Dispositivos</span></span></Link>}
-            onTitleClick={this.onTitleClick}
+            title={<a><Icon type="fork" /><span>Dispositivos</span></a>}
           >
+            <Menu.Item key="/devices" onClick={this.props.onMenuClick}><Link to="/devices"><span>all</span></Link></Menu.Item>
             {this.renderDeviceList()}
           </SubMenu>
         </Menu>
@@ -87,7 +88,7 @@ class SideMenu extends Component {
     console.log("REnder props    ", this.props)
     return(
       <Router>
-        <Route path="*" component={this.renderSider} />
+        <Route path="/" component={this.renderSider} />
       </Router>
     )
   }

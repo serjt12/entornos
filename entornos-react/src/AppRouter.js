@@ -10,9 +10,10 @@ class AppRouter extends Component {
     //  console.log(this.props)
     return (
       <Router>
-        <div>
+        <Switch>
           <Route path="/" component={App} />
-        </div>
+          <Route path="/:view" component={App} />
+        </Switch>
       </Router>
     );
   }
