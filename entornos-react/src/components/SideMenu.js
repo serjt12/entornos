@@ -1,12 +1,12 @@
 import React,{ Component } from 'react'
 import { BrowserRouter as Router, Route, Link, Switch, NavLink, withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Layout, Menu, Breadcrumb, Icon } from 'antd'
+import { Layout, Menu, Icon } from 'antd'
 import actions from '../actions'
 
 import '../App.css'
 import '../styles/sider.css'
-const { Header, Content, Footer, Sider } = Layout
+const { Sider } = Layout
 const SubMenu = Menu.SubMenu
 
 class SideMenu extends Component {
@@ -33,7 +33,7 @@ class SideMenu extends Component {
 
   onTitleClick = (e) => {
     console.log(`clicked: ${e.key}`, e)
-    const path = e.key 
+    //const path = e.key 
     //    this.props.history.replace(path)
   }
 
@@ -42,17 +42,17 @@ class SideMenu extends Component {
     //console.log('deviceList', this.props);
     const { devices } = this.props
     return devices.map(device => {
-      const nameToAddress = `/${device.name}`
       const address = `/devices/${device.name}`
-      return <Menu.Item key={nameToAddress}><Link to={address}><span>{device.name}</span></Link></Menu.Item>
+      return <Menu.Item key={address} onClick={this.props.onMenuClick}><Link to={address}><span>{device.name}</span></Link></Menu.Item>
     })
   }
 
   renderEnvironsList() {
     const { entornos } = this.props
-    return entornos.map(entorno => (
-      <Menu.Item key={entorno._id}>{entorno.name}</Menu.Item>
-      ))
+    return entornos.map(entorno => {
+      const address = `/entornos/${entorno.name}`
+      return <Menu.Item key={address} onClick={this.props.onMenuClick}><Link to={address}><span>{entorno.name}</span></Link></Menu.Item>
+      })
   }
 
   renderSider = () => {
@@ -67,13 +67,14 @@ class SideMenu extends Component {
         <div className="logo" />
         <Menu theme="dark" defaultSelectedKeys={[location.pathname]} mode="inline">
           <SubMenu 
-            key="/sub2"
+            key="/sub1"
             title={ <Link to="/entornos"><span><Icon type="api"/><span>Entornos</span></span></Link>} 
           >
+            <Menu.Item key="/entornos" onClick={this.props.onMenuClick}><Link to="/entornos"><span>all</span></Link></Menu.Item>
             {this.renderEnvironsList()}
           </SubMenu>
           <SubMenu
-            key="/devices"
+            key="/sub2"
             title={<a><Icon type="fork" /><span>Dispositivos</span></a>}
           >
             <Menu.Item key="/devices" onClick={this.props.onMenuClick}><Link to="/devices"><span>all</span></Link></Menu.Item>

@@ -1,13 +1,12 @@
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import React from 'react'
-import { Layout, Menu, Breadcrumb, Icon } from 'antd'
+import { Breadcrumb } from 'antd'
 
 import DeviceList from './devices_list'
 import EntornoList from './entornos_list'
 import DeviceDetail from './DeviceDetail'
-
+import EnvironDetail from './EnvironDetail'
 import '../App.css'
-const { Content, Header, Footer } = Layout
 
 function ViewRouter() {
   return (
@@ -21,6 +20,7 @@ function ViewRouter() {
             <Switch>
               <Route path="/devices/:detail" component={DeviceDetail} />
               <Route path="/devices" component={DeviceList} />
+              <Route path="/entornos/:detail" component={EnvironDetail} />
               <Route path="/entornos" component={EntornoList} />
             </Switch>
           </div>

@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Layout, Menu, Breadcrumb, Icon } from 'antd'
+import { bindActionCreators } from 'redux'
+import { Layout, Menu } from 'antd'
 import { Route, Link, Switch } from 'react-router-dom'
 import actions from '../actions'
 /* components */
 import SideMenu from './SideMenu'
 import ViewRouter from './viewRouter'
-import DeviceList from './devices_list'
-import EntornoList from './entornos_list.js'
 import '../App.css'
-const { Header, Content, Footer, Sider } = Layout
-const SubMenu = Menu.SubMenu
+const { Header, Content, Footer } = Layout
 
 class App extends Component {
   constructor(props) {
@@ -22,6 +20,10 @@ class App extends Component {
   // lifecycle
   componentWillMount() {
     console.log('will', this.props)
+    //    this.props.dispatch(actions.fetchDevices())
+    this.props.fetchDevices()
+    this.props.fetchEnvironms()
+
   }
 
   componentDidMount() {
@@ -34,8 +36,10 @@ class App extends Component {
     const root_add = e.keyPath
     item.onClick( e => {
     })*/
-    //   e.domEvent.preventDefault()
-   e.domEvent.isDefaultPrevented ?  console.log('fadkllll', e) : console.log('PRRRRR');
+    // e.domEvent.preventDefault()
+    e.domEvent.stopPropagation()
+    console.log('props clicked event', e)
+    e.domEvent.isDefaultPrevented ?  this.props.history.push(e.key) : console.log('PRRRRR');
   }
 
   render() {
@@ -62,4 +66,9 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect (mapStateToProps)(App);
+function mapDispatchToProps(dispatch) {
+  const { fetchDevices, fetchEnvironms } = actions
+  return bindActionCreators({ fetchDevices, fetchEnvironms }, dispatch)
+}
+
+export default connect (mapStateToProps, mapDispatchToProps)(App);

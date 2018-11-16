@@ -9,11 +9,8 @@ class AppRouter extends Component {
   render() {
     //  console.log(this.props)
     return (
-      <Router>
-        <Switch>
+      <Router forceRefresh={true}>
           <Route path="/" component={App} />
-          <Route path="/:view" component={App} />
-        </Switch>
       </Router>
     );
   }
