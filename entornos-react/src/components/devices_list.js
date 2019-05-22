@@ -14,7 +14,7 @@ class DeviceList extends Component{
       { title: 'Nombre', dataIndex: 'name', key: 'name' },
       { title: 'Descripcion', dataIndex: 'description', key: 'description' },
       { title: 'WiFi', dataIndex: 'wifi', key: 'wifi' },
-      { title: 'Action', dataIndex: '', key: 'x', render: () => <a href="#">Delete</a> },
+      { title: 'Action', dataIndex: '', key: 'x', render: () => <a href="/">Delete</a> },
     ]
       
     state = {

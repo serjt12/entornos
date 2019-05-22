@@ -1,5 +1,5 @@
 import React,{ Component } from 'react'
-import { BrowserRouter as Router, Route, Link, Switch, NavLink, withRouter, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Layout, Menu, Icon } from 'antd'
 import actions from '../actions'
@@ -57,7 +57,7 @@ class SideMenu extends Component {
 
   renderSider = () => {
     const { location } = this.props
-    console.log('sider props', this.props)
+    // console.log('sider props', this.props)
     return(
       <Sider
         collapsible
@@ -75,7 +75,7 @@ class SideMenu extends Component {
           </SubMenu>
           <SubMenu
             key="/sub2"
-            title={<a><Icon type="fork" /><span>Dispositivos</span></a>}
+            title={<a href='/'><Icon type="fork" /><span>Dispositivos</span></a>}
           >
             <Menu.Item key="/devices" onClick={this.props.onMenuClick}><Link to="/devices"><span>all</span></Link></Menu.Item>
             {this.renderDeviceList()}
@@ -86,7 +86,7 @@ class SideMenu extends Component {
   }
 
   render() {
-    console.log("REnder props    ", this.props)
+    // console.log("REnder props    ", this.props)
     return(
       <Router>
         <Route path="/" component={this.renderSider} />

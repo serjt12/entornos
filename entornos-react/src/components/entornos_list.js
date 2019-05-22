@@ -11,7 +11,7 @@ class EntornoList extends Component{
 
     { title: 'name', dataIndex: 'name', key: 'name' },
     { title: 'description', dataIndex: 'description', key: 'description' },
-    { title: 'Action', dataIndex: '', key: 'x', render: () => <a href="#">Delete</a> },
+    { title: 'Action', dataIndex: '', key: 'x', render: () => <a href="/">Delete</a> },
 
     ]
 

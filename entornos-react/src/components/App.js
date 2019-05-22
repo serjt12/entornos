@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Layout, Menu } from 'antd'
-import { Route, Link, Switch } from 'react-router-dom'
+import { Layout } from 'antd'
+// import { Route, Link, Switch } from 'react-router-dom'
 import actions from '../actions'
 /* components */
 import SideMenu from './SideMenu'
@@ -19,7 +19,7 @@ class App extends Component {
   }
   // lifecycle
   componentWillMount() {
-    console.log('will', this.props)
+    // console.log('will', this.props)
     //    this.props.dispatch(actions.fetchDevices())
     this.props.fetchDevices()
     this.props.fetchEnvironms()
@@ -27,7 +27,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log('mounted layoyt', this.props)
+    // console.log('mounted layoyt', this.props)
 
   }
   // pass callback as props

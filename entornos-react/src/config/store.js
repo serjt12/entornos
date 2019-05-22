@@ -1,5 +1,5 @@
 import { applyMiddleware, createStore } from 'redux';
-import { createLogger } from 'redux-logger';
+// import { createLogger } from 'redux-logger';
 import ReduxThunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from '../reducers/rootReducer';
@@ -7,8 +7,8 @@ import rootReducer from '../reducers/rootReducer';
 const composeEnhancers = composeWithDevTools({
   // Specify name here, actionsBlacklist, actionsCreators and other options if needed
 });
-const logger = createLogger();
-const middleware = [ ReduxThunk, logger ];
+// const logger = createLogger();
+const middleware = [ ReduxThunk ];
 
 const initialState = {
 
