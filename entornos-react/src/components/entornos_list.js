@@ -1,109 +1,118 @@
-import React, { Component } from 'react';
-import { Input, Modal, Table, Button } from 'antd';
-import { connect } from 'react-redux'
-import actions from '../actions'
+import React, { Component } from "react";
+import { Input, Modal, Table, Button, Form } from "antd";
+import { connect } from "react-redux";
+import actions from "../actions";
 
-const { TextArea } = Input
-
-class EntornoList extends Component{
-
+const ModalContent = props => {
+  // console.log("props: ", props);
+  const { form, loading, handleLoading, dispatch, showModal } = props;
+  const { getFieldDecorator } = props.form;
+  const handleOk = e => {
+    e.preventDefault();
+    form.validateFields((err, values) => {
+      if (!err) {
+        handleLoading();
+        const { name, description } = values;
+        console.log("Received values of form: ", values);
+        dispatch(actions.addEnvironm(name, description));
+        setTimeout(() => {
+          handleLoading();
+          // showModal();
+        }, 3000);
+      }
+    });
+  };
+  return (
+    <Form onSubmit={handleOk}>
+      <Form.Item label="Name">
+        {getFieldDecorator("name", {
+          rules: [{ required: true, message: "Please input your note!" }]
+        })(<Input />)}
+      </Form.Item>
+      <Form.Item label="Description">
+        {getFieldDecorator("description", {
+          rules: [{ required: true, message: "Please input the description!" }]
+        })(<Input />)}
+      </Form.Item>
+      <Form.Item wrapperCol={{ span: 6, offset: 10 }}>
+        <Button type="primary" htmlType="submit" loading={loading}>
+          Submit
+        </Button>
+      </Form.Item>
+    </Form>
+  );
+};
+const WrappedApp = Form.create({ name: "modal_content" })(ModalContent);
+class EntornoList extends Component {
   columns = [
-
-    { title: 'name', dataIndex: 'name', key: 'name' },
-    { title: 'description', dataIndex: 'description', key: 'description' },
-    { title: 'Action', dataIndex: '', key: 'x', render: () => <a href="/">Delete</a> },
-
-    ]
-
-
-    state = {
-      loading: false,
-      visible: false,
+    { title: "name", dataIndex: "name", key: "name" },
+    { title: "description", dataIndex: "description", key: "description" },
+    {
+      title: "Action",
+      dataIndex: "",
+      key: "x",
+      render: () => <a href="/">Delete</a>
     }
+  ];
 
-    newEnvironm= {
-      name: null, 
-      description: null 
-    }
+  state = {
+    loading: false,
+    visible: false
+  };
 
-    showModal = () => {
-      this.setState({
-        visible: true,
-      });
-    }
+  showModal = () => {
+    this.setState({
+      visible: !this.state.visible
+    });
+  };
 
-    handleOk = () => {
-      this.setState({ loading: true });
-      const {name, description} = this.newEnvironm
-      this.props.dispatch(actions.addEnvironm(name, description))
-      console.log(name, description)
-      setTimeout(() => {
-        this.setState({ loading: false, visible: false });
-      }, 3000);
-    }
+  handleCancel = () => {
+    this.setState({ visible: false });
+  };
 
-    handleCancel = () => {
-      this.setState({ visible: false });
-    }
-
-    handleOnChange = (field) => (e, value) => {
-
-      this.newEnvironm[field] = e.target.value   
-
-
-    }
+  handleLoading = () => {
+    this.setState({ loading: true });
+  };
 
   componentWillMount() {
-    this.props.dispatch(actions.fetchEnvironms())
-
+    this.props.dispatch(actions.fetchEnvironms());
   }
-    render () {
-
-      const {visible, loading} = this.state
-
-      return(
-        <div>
-          <div className="table-operations">
-
-            <Button onClick={this.showModal}>Agrega entorno</Button>
-
-          </div>
-
-          <Modal
-
-            visible={visible}
-            title="Nuevo entorno"
-            onOk={this.handleOk}
-            onCancel={this.handleCancel}
-
-            footer={[
-              <Button key="back" onClick={this.handleCancel}>Cancel</Button>,
-              <Button key="submit" type="primary" loading={loading} onClick={this.handleOk}>
-                Submit
-              </Button>,
-            ]}
-          >
-            <div className="modal-add-input">
-              <Input onChange= {this.handleOnChange('name')} size="large" placeholder="nombre" />
-              <TextArea  onChange= {this.handleOnChange('description')} size="large" placeholder="descripcion" autosize/>
-            </div>
-          </Modal>
-          <Table rowKey='_id'
-            columns={this.columns}
-            expandedRowRender={record => <p style={{ margin: 0 }}>{record.descripcion}</p>}
-            dataSource={this.props.entornos}
-          />
-
+  render() {
+    const { dispatch } = this.props;
+    const { visible, loading } = this.state;
+    return (
+      <div>
+        <div className="table-operations">
+          <Button onClick={this.showModal}>Agrega entorno</Button>
         </div>
-      )
-
-    }
+        <Modal
+          visible={visible}
+          title="Nuevo entorno"
+          onCancel={this.handleCancel}
+          footer={null}
+        >
+          <WrappedApp
+            loading={loading}
+            dispatch={dispatch}
+            handleLoading={this.handleLoading}
+            showModal={this.showModal}
+          />
+        </Modal>
+        <Table
+          rowKey="_id"
+          columns={this.columns}
+          expandedRowRender={record => (
+            <p style={{ margin: 0 }}>{record.descripcion}</p>
+          )}
+          dataSource={this.props.entornos}
+        />
+      </div>
+    );
+  }
 }
 
 function mapStateToProps(state) {
-
-  return { entornos : state.entornos.map(e => ({ ...e, key: e._id})) }
+  return { entornos: state.entornos.map(e => ({ ...e, key: e._id })) };
 }
 
 export default connect(mapStateToProps)(EntornoList);
-
