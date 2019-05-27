@@ -1,32 +1,34 @@
-import React, { Component } from "react";
-import { Input, Modal, Table, Button, Form } from "antd";
-import { connect } from "react-redux";
-import actions from "../actions";
+import React, { Component } from "react"
+import { Input, Modal, Table, Button, Form } from "antd"
+import { connect } from "react-redux"
+import actions from "../actions"
 
 const ModalContent = props => {
   // console.log("props: ", props);
   const { form, loading, handleLoading, dispatch, showModal } = props;
-  const { getFieldDecorator } = props.form;
+  const { getFieldDecorator, resetFields } = props.form;
+  console.log("props.form: ", props.form);
   const handleOk = e => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
         handleLoading();
         const { name, description } = values;
-        console.log("Received values of form: ", values);
         dispatch(actions.addEnvironm(name, description));
         setTimeout(() => {
           handleLoading();
-          // showModal();
+          showModal();
+          resetFields();
         }, 3000);
       }
     });
   };
+  console.log(loading);
   return (
     <Form onSubmit={handleOk}>
       <Form.Item label="Name">
         {getFieldDecorator("name", {
-          rules: [{ required: true, message: "Please input your note!" }]
+          rules: [{ required: true, message: "Please input your name!" }]
         })(<Input />)}
       </Form.Item>
       <Form.Item label="Description">
@@ -51,7 +53,7 @@ class EntornoList extends Component {
       title: "Action",
       dataIndex: "",
       key: "x",
-      render: () => <a href="/">Delete</a>
+      render: () => <a href="#">Delete</a>
     }
   ];
 
@@ -67,11 +69,11 @@ class EntornoList extends Component {
   };
 
   handleCancel = () => {
-    this.setState({ visible: false });
+    this.setState({ visible: !this.state.visible });
   };
 
   handleLoading = () => {
-    this.setState({ loading: true });
+    this.setState({ loading: !this.state.loading });
   };
 
   componentWillMount() {

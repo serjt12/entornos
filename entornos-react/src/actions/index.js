@@ -43,8 +43,8 @@ function fetchEnvironms() {
 }
 
 function addEnvironm(name, description) {
-  console.log('description: ', description);
-  console.log('name: ', name);
+  // console.log('description: ', description);
+  // console.log('name: ', name);
   return function(dispatch) {
     const url = '/environs';
     axios
